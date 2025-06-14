@@ -8,6 +8,14 @@ test('login screen can be rendered', function () {
     $response->assertStatus(200);
 });
 
+test('users can redirect to home page if authenticated', function () {
+    $this->actingAs(User::factory()->create());
+    $this->assertAuthenticated();
+
+    $response = $this->get('/login');
+    $response->assertRedirect(route('home', absolute: false));
+});
+
 test('users can authenticate using the login screen', function () {
     $user = User::factory()->create();
 

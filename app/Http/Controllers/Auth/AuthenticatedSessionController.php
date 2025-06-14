@@ -11,8 +11,12 @@ use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
-    public function create(): View
+    public function create(): View|RedirectResponse
     {
+        if (Auth::check()) {
+            return redirect()->intended(route('home', absolute: false));
+        }
+
         return view('auth.login');
     }
 
