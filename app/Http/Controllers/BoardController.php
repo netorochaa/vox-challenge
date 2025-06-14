@@ -36,4 +36,11 @@ class BoardController extends Controller
 
         return redirect()->route('home')->with('success', 'Board updated successfully');
     }
+
+    public function show(Request $request, int $id): View
+    {
+        $board = Board::findOrFail($id);
+
+        return view('features.board.view', ['board' => $board]);
+    }
 }

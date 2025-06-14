@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BoardController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn () => redirect()->route('login'));
@@ -17,5 +18,9 @@ Route::middleware('auth')->group(function () {
         Route::post('store', [BoardController::class, 'store'])->name('board.store');
         Route::get('{id}/edit', [BoardController::class, 'edit'])->name('board.edit');
         Route::put('{id}', [BoardController::class, 'update'])->name('board.update');
+        Route::get('{id}', [BoardController::class, 'show'])->name('board.view');
+
+        Route::get('{boardId}/category/create', [CategoryController::class, 'create'])->name('category.create');
+        Route::post('store', [CategoryController::class, 'store'])->name('category.store');
     });
 });

@@ -25,8 +25,6 @@
 
     @push('scripts')
         <script>
-            var edit
-
             $(document).ready(function() {
                 setLoadingSpinner(true);
 
@@ -37,12 +35,15 @@
                         var tbody = $('#board-table tbody');
                         tbody.empty();
 
-                        $.each(response.data, function(index, user) {
+                        $.each(response.data, function(index, board) {
                             var row = '<tr>' +
-                                    '<td>' + user.id + '</td>' +
-                                    '<td>' + user.name + '</td>' +
-                                    '<td>' + user.created_at + '</td>' +
-                                    '<td> <a class="btn btn-outline-info btn-sm" href="board/'+ user.id + '/edit">Acessar</a> </td>' +
+                                    '<td>' + board.id + '</td>' +
+                                    '<td>' + board.name + '</td>' +
+                                    '<td>' + board.created_at + '</td>' +
+                                    '<td>' +
+                                        '<a class="btn btn-outline-info btn-sm" href="board/'+ board.id + '/edit">Editar</a>' +
+                                        '<a class="mx-2 btn btn-outline-secondary btn-sm" href="board/'+ board.id + '">Acessar</a>' +
+                                    '</td>' +
                                     '</tr>';
                             tbody.append(row);
                         });
