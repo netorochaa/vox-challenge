@@ -8,12 +8,13 @@
 
     <div class="d-none card" id="card-board">
         <div class="card-body">
-            <table id="board-table">
+            <table class="table" id="board-table">
                 <thead>
                     <tr>
                         <th>#</th>
                         <th>Nome</th>
                         <th>Data de criação</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -24,19 +25,35 @@
 
     @push('scripts')
         <script>
+            var edit
+
             $(document).ready(function() {
                 setLoadingSpinner(true);
 
-                // $.ajax({
-                //     url: '/api/users-options',
-                //     type: 'GET',
-                //     success: function(response) {
-                //         $('#user-select').html(response);
-                //     },
-                //     error: function() {
-                //         console.error('Erro ao carregar opções');
-                //     }
-                // });
+                $.ajax({
+                    url: '/api/board',
+                    type: 'GET',
+                    success: function(response) {
+                        var tbody = $('#board-table tbody');
+                        tbody.empty();
+
+                        $.each(response.data, function(index, user) {
+                            var row = '<tr>' +
+                                    '<td>' + user.id + '</td>' +
+                                    '<td>' + user.name + '</td>' +
+                                    '<td>' + user.created_at + '</td>' +
+                                    '<td> <a class="btn btn-outline-info btn-sm" href="board/'+ user.id + '/edit">Acessar</a> </td>' +
+                                    '</tr>';
+                            tbody.append(row);
+                        });
+                    },
+                    error: function() {
+                        console.error('Erro ao carregar quadros');
+                    },
+                    complete: function() {
+                        setLoadingSpinner(false);
+                    }
+                });
             });
 
             function setLoadingSpinner(show) {
