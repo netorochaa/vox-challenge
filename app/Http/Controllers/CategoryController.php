@@ -22,6 +22,6 @@ class CategoryController extends Controller
     {
         $category = Category::create($request->validated());
 
-        return redirect()->route('board.view', $category->id)->with('success', 'Category created successfully');
+        return redirect()->route('board.view', $category->board->id)->with('success', 'Category created successfully');
     }
 }

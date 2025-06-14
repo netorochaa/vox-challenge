@@ -21,6 +21,6 @@ Route::middleware('auth')->group(function () {
         Route::get('{id}', [BoardController::class, 'show'])->name('board.view');
 
         Route::get('{boardId}/category/create', [CategoryController::class, 'create'])->name('category.create');
-        Route::post('store', [CategoryController::class, 'store'])->name('category.store');
+        Route::post('category/store', [CategoryController::class, 'store'])->name('category.store');
     });
 });
