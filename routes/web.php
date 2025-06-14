@@ -15,5 +15,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('board')->group(function () {
         Route::get('create', [BoardController::class, 'create'])->name('board.create');
         Route::post('store', [BoardController::class, 'store'])->name('board.store');
+        Route::get('{id}/edit', [BoardController::class, 'edit'])->name('board.edit');
+        Route::put('{id}', [BoardController::class, 'update'])->name('board.update');
     });
 });
