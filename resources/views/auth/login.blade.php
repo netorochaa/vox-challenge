@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-guest-layout>
     <div class="container d-flex align-items-center justify-content-center min-vh-100">
         <div class="card p-4 login-card" style="width: 100%; max-width: 400px;">
 
@@ -31,4 +31,4 @@
             </form>
         </div>
     </div>
-</x-app-layout>
+</x-guest-layout>
