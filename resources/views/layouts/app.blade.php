@@ -28,6 +28,16 @@
 
         <div class="content-wrapper mt-4">
             <main class="container">
+                @if(session('success'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('success') }}
+                    </div>
+                @elseif(session('error'))
+                    <div class="alert alert-danger" role="alert">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
                 {{ $slot }}
 
                 <div id="card-loading" class="d-none position-absolute top-50 start-50 translate-middle text-center">
