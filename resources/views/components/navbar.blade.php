@@ -13,7 +13,7 @@
       </ul>
       <form method="POST" class="d-flex" action="{{ route('logout') }}">
         @csrf
-        <button class="btn btn-outline-secondary" type="submit">Logout</button>
+        <button class="btn btn-outline-secondary btn-sm" type="submit">Logout</button>
       </form>
     </div>
   </div>
