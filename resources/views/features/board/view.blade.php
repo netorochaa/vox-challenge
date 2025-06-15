@@ -55,6 +55,7 @@
 
             async function initPage() {
                 await fetchCategories();
+                initDragAndDrop();
             }
 
             async function fetchCategories() {
@@ -119,19 +120,22 @@
 
                         if (categoryCol.length) {
                             if (!categoryCol.find(`#category-tasks-list-${categoryId}`).length) {
-                                categoryCol.append(`<div class="mt-3" id="category-tasks-list-${categoryId}"></div>`);
+                                categoryCol.append(`
+                                    <ul style="list-style-type: none;" class="mt-3 list-group sortable-column h-75" id="category-tasks-list-${categoryId}" data-category-id="${categoryId}">
+                                    </ul>
+                                `);
                             }
                         }
 
                         tasks.forEach(task => {
                             if (categoryCol.length) {
                                 categoryCol.find(`#category-tasks-list-${categoryId}`).append(`
-                                    <div class="card mb-2">
+                                    <li class="card mb-2" data-id="${task.id}" data-category-id="${task.category_id}">
                                         <div class="card-body">
-                                            <h5 class="card-title">${task.name}</h5>
-                                            <p class="card-text">Criado em: ${task.created_at}</p>
+                                            <h5 class="card-title">#${task.id} - ${task.name}</h5>
+                                            <p class="card-text fs-6 fw-lighter">Criado em: ${task.created_at}</p>
                                         </div>
-                                    </div>
+                                    </li>
                                 `);
                             }
                         });
@@ -139,6 +143,43 @@
                     error: function() {
                         console.error('Erro ao carregar tarefas');
                     },
+                });
+            }
+
+            function initDragAndDrop() {
+                $("#board-categories").on("mouseenter", ".sortable-column", function() {
+                    $(".sortable-column").sortable({
+                        connectWith: ".sortable-column",
+                        stop: function(event, ui) {
+                            let taskId = ui.item.data('id');
+                            let newCategoryId = ui.item.closest('.sortable-column').data('category-id');
+
+                            let taskOrder = [];
+                            ui.item.closest('.sortable-column').find('li').each(function(index, element) {
+                                taskOrder.push({
+                                    task_id: $(element).data('id'),
+                                    category_id: newCategoryId,
+                                    order: index + 1
+                                });
+                            });
+
+                            $.ajax({
+                                url: '/api/task/move',
+                                type: 'POST',
+                                data: {
+                                    data: taskOrder,
+                                    _token: '{{ csrf_token() }}'
+                                },
+                                success: function(response) {
+                                    console.log('Movimentação de tarefa bem-sucedida');
+                                },
+                                error: function(xhr) {
+                                    const errors = xhr.responseJSON.errors;
+                                    console.error('Erro ao mover tarefa:', errors);
+                                }
+                            });
+                        }
+                    }).disableSelection();
                 });
             }
 

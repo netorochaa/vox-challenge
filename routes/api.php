@@ -10,4 +10,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('category', CategoryIndexController::class)->name('category.index');
     Route::get('category/{categoryId}/task', [TaskController::class, 'index'])->name('tasks.index');
     Route::post('task', [TaskController::class, 'store'])->name('tasks.store');
+    Route::post('task/move', [TaskController::class, 'move'])->name('tasks.move');
 });
