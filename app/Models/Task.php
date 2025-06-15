@@ -14,6 +14,7 @@ class Task extends Model
     protected $fillable = [
         'name',
         'category_id',
+        'order',
     ];
 
     public function category(): BelongsTo
