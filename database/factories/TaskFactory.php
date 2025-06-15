@@ -15,6 +15,7 @@ class TaskFactory extends Factory
         return [
             'name'        => $this->faker->unique()->sentence(),
             'category_id' => Category::factory(),
+            'order'       => rand(1, 1000),
         ];
     }
 }

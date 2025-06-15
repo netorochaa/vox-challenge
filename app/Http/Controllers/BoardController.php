@@ -20,7 +20,7 @@ class BoardController extends Controller
     {
         Board::create($request->validated());
 
-        return redirect()->route('home')->with('success', 'Board created successfully');
+        return redirect()->route('home')->with('success', 'Quadro criado com sucesso');
     }
 
     public function edit(Request $request, int $id): View
@@ -34,7 +34,7 @@ class BoardController extends Controller
     {
         Board::find($id)->update($request->validated());
 
-        return redirect()->route('home')->with('success', 'Board updated successfully');
+        return redirect()->route('home')->with('success', 'Quadro atualizado com sucesso');
     }
 
     public function show(Request $request, int $id): View
@@ -42,5 +42,13 @@ class BoardController extends Controller
         $board = Board::findOrFail($id);
 
         return view('features.board.view', ['board' => $board]);
+    }
+
+    public function delete(Request $request, int $id): RedirectResponse
+    {
+        $board = Board::findOrFail($id);
+        $board->delete();
+
+        return redirect()->route('home')->with('success', 'Quadro deletado com sucesso');
     }
 }

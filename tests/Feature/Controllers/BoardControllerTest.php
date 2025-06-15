@@ -20,7 +20,7 @@ it('stores a new board and redirects with success', function () {
     $response = $this->post(route('board.store'), $data);
 
     $response->assertRedirect(route('home'));
-    $response->assertSessionHas('success', 'Board created successfully');
+    $response->assertSessionHas('success', 'Quadro criado com sucesso');
     $this->assertDatabaseHas('boards', ['name' => 'Test Board']);
 });
 
@@ -44,7 +44,7 @@ it('updates a board and redirects with success', function () {
     $response = $this->put(route('board.update', ['id' => $board->id]), $data);
 
     $response->assertRedirect(route('home'));
-    $response->assertSessionHas('success', 'Board updated successfully');
+    $response->assertSessionHas('success', 'Quadro atualizado com sucesso');
     $this->assertDatabaseHas('boards', ['id' => $board->id, 'name' => 'Updated Name']);
 });
 
@@ -69,4 +69,14 @@ it('can validate board unique name on store', function () {
 
     $response->assertSessionHasErrors('name');
     $this->assertDatabaseCount('boards', 1);
+});
+
+it('can delete a board and redirects with success', function () {
+    $board = Board::factory()->create();
+
+    $response = $this->delete(route('board.delete', ['id' => $board->id]));
+
+    $response->assertRedirect(route('home'));
+    $response->assertSessionHas('success', 'Quadro deletado com sucesso');
+    $this->assertDatabaseMissing('boards', ['id' => $board->id]);
 });

@@ -17,7 +17,8 @@ class TaskController extends Controller
     {
         $tasks = Task::query()
             ->where('category_id', $categoryId)
-            ->orderBy('order')->get();
+            ->orderBy('order')
+            ->get();
 
         return TaskResource::collection($tasks);
     }
@@ -48,6 +49,6 @@ class TaskController extends Controller
             ]);
         }
 
-        return response()->json(['message' => 'Tasks moved successfully']);
+        return response()->json(['message' => 'Tasks movidas com sucesso'], 200);
     }
 }
